@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | IVORY BEAUTY</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/cart.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-transition"></div>
+
+    <header>
+        <div class="logo">IVORY BEAUTY</div>
+        <div class="search-container">
+            <input type="text" placeholder="Search products..." class="search-input">
+            <button class="search-btn">
+                <span class="search-icon">&#9906;</span>
+            </button>
+        </div>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Collection</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <div class="auth-icons">
+                <a href="/login" class="icon-btn" aria-label="Sign in">
+                    <span class="icon">&#128100;</span>
+                </a>
+            </div>
+            <div class="cart-icon">
+                <a href="/cart" class="icon-btn active" aria-label="Shopping cart">
+                    <span class="icon">&#128722;</span>
+                    <span class="cart-count"><%= cartCount %></span>
+                </a>
+            </div>
+        </div>
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="mobile-nav">
+            <div class="mobile-nav-header">
+                <div class="logo">IVORY BEAUTY</div>
+                <div class="close-menu">×</div>
+            </div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Collection</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="mobile-nav-footer">
+                <div class="mobile-search">
+                    <input type="text" placeholder="Search products..." class="search-input">
+                    <button class="search-btn">
+                        <span class="search-icon">&#9906;</span>
+                    </button>
+                </div>
+                <div class="mobile-actions">
+                    <a href="#" class="btn-outline">Sign In</a>
+                    <a href="#" class="btn">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="cart-page">
+        <div class="cart-container">
+            <div class="cart-header-section">
+                <h1 class="cart-title fade-in">Your Cart</h1>
+                <div class="cart-breadcrumb fade-in delay-1">
+                    <a href="/">Home</a> <span>/</span> <span>Cart</span>
+                </div>
+            </div>
+            
+            <% if (cartItems.length === 0) { %>
+            <div class="empty-cart-section fade-in delay-1">
+                <div class="empty-cart-content">
+                    <div class="empty-cart-icon">
+                        <div class="cart-icon-wrapper">
+                            <span class="cart-emoji">🛒</span>
+                        </div>
+                    </div>
+                    <h2>Your cart is empty</h2>
+                    <p>Looks like you haven't added anything to your cart yet. Start shopping to fill it up!</p>
+                    <a href="/" class="btn btn-primary">Start Shopping</a>
+                </div>
+            </div>
+            <% } else { %>
+            
+            <div class="cart-content-section fade-in delay-1">
+                <div class="cart-items-container">
+                    <div class="cart-table-header">
+                        <span class="header-product">Product</span>
+                        <span class="header-price">Price</span>
+                        <span class="header-quantity">Quantity</span>
+                        <span class="header-total">Total</span>
+                        <span class="header-remove"></span>
+                    </div>
+                    
+                    <div class="cart-items-list">
+                        <% cartItems.forEach(item => { %>
+                        <div class="cart-item">
+                            <div class="cart-item-product">
+                                <!-- <div class="product-image">
+                                    <img src="<%= item.imageUrl %>" alt="<%= item.name %>" loading="lazy">
+                                </div> -->
+                                <div class="product-details">
+                                    <h3 class="product-name"><%= item.name %></h3>
+                                    <p class="product-price-mobile">₦<%= item.price.toFixed(2) %></p>
+                                </div>
+                            </div>
+                            
+                            <div class="cart-item-price">
+                                <span class="price-label">Price:</span>
+                                <span class="price-value">₦<%= item.price.toFixed(2) %></span>
+                            </div>
+                            
+                            <div class="cart-item-quantity">
+                                <span class="quantity-label">Quantity:</span>
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn decrement" data-product-id="<%= item.product %>" aria-label="Decrease quantity">
+                                        <span>−</span>
+                                    </button>
+                                    <span class="quantity-display"><%= item.quantity %></span>
+                                    <button class="quantity-btn increment" data-product-id="<%= item.product %>" aria-label="Increase quantity">
+                                        <span>+</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="cart-item-total">
+                                <span class="total-label">Total:</span>
+                                <span class="total-value">₦<%= (item.price * item.quantity).toFixed(2) %></span>
+                            </div>
+                            
+                            <button class="remove-item" data-product-id="<%= item.product %>">&times;</button>
+                        </div>
+                        <% }) %>
+                    </div>
+                </div>
+                
+                <div class="cart-summary-container">
+                    <div class="cart-summary">
+                        <h3 class="summary-title">Order Summary</h3>
+                        
+                        <div class="summary-row">
+                            <span class="summary-label">Subtotal</span>
+                            <span class="summary-value" id="cart-subtotal">₦<%= total.toFixed(2) %></span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span class="summary-label">Shipping</span>
+                            <span class="summary-value summary-note">Calculated at checkout</span>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span class="summary-label">Tax</span>
+                            <span class="summary-value summary-note">Calculated at checkout</span>
+                        </div>
+                        
+                        <div class="summary-divider"></div>
+                        
+                        <div class="summary-row summary-total">
+                            <span class="summary-label">Total</span>
+                            <span class="summary-value" id="cart-total">₦<%= total.toFixed(2) %></span>
+                        </div>
+                        
+                        <div class="cart-actions">
+                            <a href="/" class="btn btn-outline">Continue Shopping</a>
+                            <form id="order-form" action="/orders/checkout" method="GET">
+                                <input type="hidden" name="items" value='<%= JSON.stringify(cartItems.map(i => ({
+                                  product: i.product.toString(),
+                                  quantity: i.quantity
+                                }))) %>'>
+                                <input type="hidden" name="total" value="<%= total %>">
+                                <button type="submit" class="btn btn-primary">Place Order</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">IVORY BEAUTY</div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#">All Products</a></li>
+                        <li><a href="#">Bestsellers</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Gift Sets</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="#">Ingredients</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Help</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-social">
+                <a href="#" class="social-icon">Ig</a>
+                <a href="#" class="social-icon">Fb</a>
+                <a href="#" class="social-icon">Pt</a>
+                <a href="#" class="social-icon">Tw</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 IVORY BEAUTY. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/animations.js"></script>
+    <script src="../js/cartAnimation.js" defer></script>
+</body>
+</html>

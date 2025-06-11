@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Essence</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body class="about-page">
+    <div class="cursor"></div>
+    <div class="page-transition"></div>
+
+    <header>
+        <div class="logo">IVORY BEAUTY</div>
+        <div class="search-container">
+            <input type="text" placeholder="Search products..." class="search-input">
+            <button class="search-btn">
+                <span class="search-icon">&#9906;</span>
+            </button>
+        </div>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Collection</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <div class="auth-icons">
+                <a href="/login" class="icon-btn" aria-label="Sign in">
+                    <span class="icon">&#128100;</span>
+                </a>
+            </div>
+            <div class="cart-icon">
+                <a href="/cart" class="icon-btn" aria-label="Shopping cart">
+                    <span class="icon">&#128722;</span>
+                    <span class="cart-count"><%= cartCount %></span>
+                </a>
+            </div>
+        </div>
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="mobile-nav">
+            <div class="mobile-nav-header">
+                <div class="logo">IVORY BEAUTY</div>
+                <div class="close-menu">×</div>
+            </div>
+            <ul>
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Collection</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="mobile-nav-footer">
+                <div class="mobile-search">
+                    <input type="text" placeholder="Search products..." class="search-input">
+                    <button class="search-btn">
+                        <span class="search-icon">&#9906;</span>
+                    </button>
+                </div>
+                <div class="mobile-actions">
+                    <a href="/login" class="btn-outline">Sign In</a>
+                    <a href="/signup" class="btn">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="about-hero">
+            <div class="about-hero-content">
+                <h1 class="fade-in">Our <span class="highlight">Story</span></h1>
+                <p class="fade-in delay-1">Founded on the belief that beauty thrives in simplicity</p>
+            </div>
+            <div class="about-hero-image fade-in delay-2">
+                <div class="image-container"></div>
+            </div>
+        </section>
+
+        <section class="mission">
+            <div class="mission-content reveal">
+                <h2>Our Mission</h2>
+                <p>At IVORY BEAUTY, we believe that skincare should be a celebration of your natural beauty, not a complex regimen of countless products. Our mission is to create simple, effective formulations that work in harmony with your skin's natural processes.</p>
+                <p>We strip away the unnecessary and focus on what truly matters: quality ingredients, thoughtful formulations, and results you can see and feel.</p>
+            </div>
+        </section>
+
+        <section class="founders">
+            <div class="founders-image reveal">
+                <div class="image-container"></div>
+            </div>
+            <div class="founders-content reveal delay-1">
+                <h2>The Founders</h2>
+                <p>IVORY BEAUTY was born from a shared vision between two friends, Claire and Sophia, who were frustrated by the overwhelming complexity of modern skincare.</p>
+                <p>With backgrounds in cosmetic chemistry and holistic wellness, they set out to create a line that embodied their belief that beauty thrives in simplicity.</p>
+                <p>Five years later, their vision has grown into a collection that has helped thousands rediscover the joy of simple, effective skincare.</p>
+            </div>
+        </section>
+
+        <section class="values">
+            <h2 class="section-title reveal">Our Values</h2>
+            <div class="values-container">
+                <div class="value-item reveal">
+                    <div class="value-icon">
+                        <div class="circle"></div>
+                    </div>
+                    <h3>Simplicity</h3>
+                    <p>We believe in doing more with less. Our formulations focus on essential ingredients that deliver real results.</p>
+                </div>
+                <div class="value-item reveal delay-1">
+                    <div class="value-icon">
+                        <div class="circle"></div>
+                    </div>
+                    <h3>Transparency</h3>
+                    <p>We're committed to clear, honest communication about our ingredients, sourcing, and manufacturing processes.</p>
+                </div>
+                <div class="value-item reveal delay-2">
+                    <div class="value-icon">
+                        <div class="circle"></div>
+                    </div>
+                    <h3>Sustainability</h3>
+                    <p>Our commitment to simplicity extends to our environmental impact, with mindful packaging and responsible sourcing.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="process">
+            <div class="process-content reveal">
+                <h2>Our Process</h2>
+                <p>Every IVORY BEAUTY product begins with a question: What does your skin truly need? From there, we work with leading formulators to create products that deliver those benefits with minimal ingredients.</p>
+                <p>We test extensively, refine continuously, and only release products that meet our exacting standards for efficacy and experience.</p>
+            </div>
+            <div class="process-image reveal delay-1">
+                <div class="image-container"></div>
+            </div>
+        </section>
+
+        <section class="team">
+            <h2 class="section-title reveal">Meet Our Team</h2>
+            <div class="team-container">
+                <div class="team-member reveal">
+                    <div class="member-image">
+                        <div class="hover-reveal"></div>
+                    </div>
+                    <h3>Claire Bennett</h3>
+                    <p>Co-Founder & Formulator</p>
+                </div>
+                <div class="team-member reveal delay-1">
+                    <div class="member-image">
+                        <div class="hover-reveal"></div>
+                    </div>
+                    <h3>Sophia Lin</h3>
+                    <p>Co-Founder & Creative Director</p>
+                </div>
+                <div class="team-member reveal delay-2">
+                    <div class="member-image">
+                        <div class="hover-reveal"></div>
+                    </div>
+                    <h3>James Wilson</h3>
+                    <p>Head of Product Development</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="join-us">
+            <div class="join-us-content reveal">
+                <h2>Join Our Journey</h2>
+                <p>We're always looking for passionate individuals who share our vision of beauty in simplicity.</p>
+                <button class="btn">View Opportunities</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">IVORY BEAUTY</div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#">All Products</a></li>
+                        <li><a href="#">Bestsellers</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Gift Sets</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="#">Ingredients</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Help</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-social">
+                <a href="#" class="social-icon">Ig</a>
+                <a href="#" class="social-icon">Fb</a>
+                <a href="#" class="social-icon">Pt</a>
+                <a href="#" class="social-icon">Tw</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 IVORY BEAUTY. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/animations.js"></script>
+</body>
+</html>

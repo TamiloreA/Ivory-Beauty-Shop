@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers | IVORY BEAUTY Admin</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">IVORY BEAUTY</h1>
+                <p class="admin-label">Admin Panel</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="/admin/dashboard"><span class="icon">📊</span> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="/admin/collections"><span class="icon">📁</span> Collections</a>
+                    </li>
+                    <li>
+                        <a href="/admin/products"><span class="icon">🏷️</span> Products</a>
+                    </li>
+                    <li>
+                        <a href="/admin/orders"><span class="icon">📦</span> Orders</a>
+                    </li>
+                    <li class="active">
+                        <a href="/admin/customers"><span class="icon">👥</span> Customers</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/" class="view-site-btn"><span class="icon">🌐</span> View Site</a>
+                <a href="/admin/logout" class="logout-btn"><span class="icon">🚪</span> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar">☰</button>
+                    <h2>Customers</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search..." class="search-input">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                    <div class="admin-profile">
+                        <span class="admin-name">Admin User</span>
+                        <div class="admin-avatar">A</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <section class="admin-section">
+                    <div class="section-header">
+                        <h2>Customers</h2>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="customers-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Joined</th>
+                                    <th>Orders</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (customers.length === 0) { %>
+                                    <tr>
+                                        <td colspan="6" style="text-align: center;">No customers found</td>
+                                    </tr>
+                                <% } else { %>
+                                    <% customers.forEach(customer => { %>
+                                        <tr>
+                                            <td><%= customer.name %></td>
+                                            <td><%= customer.email %></td>
+                                            <td><%= customer.phone %></td>
+                                            <td><%= customer.address %></td>
+                                            <td>
+                                                <%= new Date(customer.createdAt).toLocaleDateString('en-US', {
+                                                    month: 'short',
+                                                    day: 'numeric',
+                                                    year: 'numeric'
+                                                }) %>
+                                            </td>
+                                            <td>
+                                                <a href="/admin/orders?customer=<%= customer._id %>" class="view-btn">
+                                                    View Orders
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/admin.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!-- Search Results Section -->
+<section class="admin-section">
+    <div class="section-header">
+      <h2>Search Results for "<%= query %>"</h2>
+      <div>
+        Found <%= 
+          searchType === 'all' ? 
+            (results.collections.length + results.products.length + results.orders.length + results.customers.length) : 
+            results.length 
+        %> results
+      </div>
+    </div>
+    
+    <% if (searchType === 'all' || searchType === 'collections') { %>
+      <% const collections = searchType === 'all' ? results.collections : results; %>
+      <% if (collections.length > 0) { %>
+        <div class="search-category">
+          <h3>Collections</h3>
+          <div class="collections-list">
+            <% collections.forEach(c => { %>
+              <div class="collection-card">
+                <div class="collection-header">
+                  <h3><%= c.name %></h3>
+                </div>
+                <p class="collection-description"><%= c.description %></p>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
+    <% } %>
+    
+    <!-- Repeat for products, orders, customers -->
+    
+  </section>

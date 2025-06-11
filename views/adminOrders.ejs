@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders | IVORY BEAUTY Admin</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">IVORY BEAUTY</h1>
+                <p class="admin-label">Admin Panel</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="/admin/dashboard"><span class="icon">📊</span> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="/admin/collections"><span class="icon">📁</span> Collections</a>
+                    </li>
+                    <li>
+                        <a href="/admin/products"><span class="icon">🏷️</span> Products</a>
+                    </li>
+                    <li class="active">
+                        <a href="/admin/orders"><span class="icon">📦</span> Orders</a>
+                    </li>
+                    <li>
+                        <a href="/admin/customers"><span class="icon">👥</span> Customers</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/" class="view-site-btn"><span class="icon">🌐</span> View Site</a>
+                <a href="/admin/logout" class="logout-btn"><span class="icon">🚪</span> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar">☰</button>
+                    <h2>Orders</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search..." class="search-input">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                    <div class="admin-profile">
+                        <span class="admin-name">Admin User</span>
+                        <div class="admin-avatar">A</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <section class="admin-section">
+                    <div class="section-header">
+                        <h2>All Orders</h2>
+                        <div>
+                            <a href="/admin/export-orders" class="view-all-btn" id="export-orders-btn">Export to Excel</a>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Contact</th>
+                                    <th>Date</th>
+                                    <th>Items</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (orders.length === 0) { %>
+                                    <tr>
+                                        <td colspan="8" style="text-align: center;">No orders found</td>
+                                    </tr>
+                                <% } else { %>
+                                    <% orders.forEach(order => { %>
+                                        <tr data-order-id="<%= order._id %>">
+                                            <td>#<%= order._id.toString().slice(-6).toUpperCase() %></td>
+                                            <td>
+                                                <div class="customer-info">
+                                                    <div class="customer-name"><%= order.user ? order.user.name : 'Guest' %></div>
+                                                    <div class="customer-address"><%= order.contactAddress %></div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="contact-info">
+                                                    <div><%= order.contactEmail %></div>
+                                                    <div><%= order.contactPhone %></div>
+                                                </div>
+                                            </td>
+                                            <td><%= order.formattedDate %></td>
+                                            <td>
+                                                <div class="order-items">
+                                                    <% order.items.forEach(item => { %>
+                                                        <div><%= item.product?.name || 'Unknown Product' %> × <%= item.quantity %></div>
+                                                    <% }) %>
+                                                </div>
+                                            </td>
+                                            <td>₦<%= order.total.toFixed(2) %></td>
+                                            <td>
+                                                <% 
+                                                    let statusClass, statusText;
+                                                    switch (order.status) {
+                                                        case 'delivered':
+                                                            statusClass = 'completed';
+                                                            statusText = 'Delivered';
+                                                            break;
+                                                        case 'processing':
+                                                            statusClass = 'processing';
+                                                            statusText = 'Processing';
+                                                            break;
+                                                        case 'shipped':
+                                                            statusClass = 'shipped';
+                                                            statusText = 'Shipped';
+                                                            break;
+                                                        case 'cancelled':
+                                                            statusClass = 'cancelled';
+                                                            statusText = 'Cancelled';
+                                                            break;
+                                                        case 'pending-payment':
+                                                            statusClass = 'pending';
+                                                            statusText = 'Pending Payment';
+                                                            break;
+                                                        case 'failed':
+                                                            statusClass = 'failed';
+                                                            statusText = 'Failed';
+                                                            break;
+                                                        default:
+                                                            statusClass = 'processing';
+                                                            statusText = order.status;
+                                                    }
+                                                %>
+                                                <span class="status <%= statusClass %>"><%= statusText %></span>
+                                            </td>
+                                            <td>
+                                                <div class="table-actions">
+                                                    <select class="status-select" data-order-id="<%= order._id %>">
+                                                        <option value="processing" <%= order.status === 'processing' ? 'selected' : '' %>>Processing</option>
+                                                        <option value="shipped" <%= order.status === 'shipped' ? 'selected' : '' %>>Shipped</option>
+                                                        <option value="delivered" <%= order.status === 'delivered' ? 'selected' : '' %>>Delivered</option>
+                                                        <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle sidebar
+            // document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            //     document.querySelector('.sidebar').classList.toggle('active');
+            //     document.querySelector('.main-content').classList.toggle('sidebar-active');
+            // });
+            
+            // Handle order status changes
+            document.querySelectorAll('.status-select').forEach(select => {
+                select.addEventListener('change', function() {
+                    const orderId = this.dataset.orderId;
+                    const newStatus = this.value;
+                    
+                    fetch('/admin/update-order-status', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ orderId, status: newStatus })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const row = this.closest('tr');
+                            const statusElement = row.querySelector('.status');
+                            statusElement.textContent = data.statusText;
+                            
+                            statusElement.className = 'status';
+                            statusElement.classList.add(data.statusClass);
+                            
+                            alert('Order status updated successfully!');
+                        } else {
+                            alert('Failed to update status: ' + (data.error || 'Unknown error'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to update status. Please try again.');
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

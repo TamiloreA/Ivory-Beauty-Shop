@@ -1,0 +1,19 @@
+<nav class="sidebar-nav">
+    <ul>
+      <li class="<%= currentPage === 'dashboard' ? 'active' : '' %>">
+        <a href="/admin/dashboard"><span class="icon">📊</span> Dashboard</a>
+      </li>
+      <li class="<%= currentPage === 'collections' ? 'active' : '' %>">
+        <a href="/admin/collections"><span class="icon">📁</span> Collections</a>
+      </li>
+      <li class="<%= currentPage === 'products' ? 'active' : '' %>">
+        <a href="/admin/products"><span class="icon">🏷️</span> Products</a>
+      </li>
+      <li class="<%= currentPage === 'orders' ? 'active' : '' %>">
+        <a href="/admin/orders"><span class="icon">📦</span> Orders</a>
+      </li>
+      <li class="<%= currentPage === 'customers' ? 'active' : '' %>">
+        <a href="/admin/customers"><span class="icon">👥</span> Customers</a>
+      </li>
+    </ul>
+  </nav>

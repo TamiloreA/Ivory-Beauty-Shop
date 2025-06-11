@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collections | IVORY BEAUTY Admin</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">IVORY BEAUTY</h1>
+                <p class="admin-label">Admin Panel</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="/admin/dashboard"><span class="icon">📊</span> Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <a href="/admin/collections"><span class="icon">📁</span> Collections</a>
+                    </li>
+                    <li>
+                        <a href="/admin/products"><span class="icon">🏷️</span> Products</a>
+                    </li>
+                    <li>
+                        <a href="/admin/orders"><span class="icon">📦</span> Orders</a>
+                    </li>
+                    <li>
+                        <a href="/admin/customers"><span class="icon">👥</span> Customers</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/" class="view-site-btn"><span class="icon">🌐</span> View Site</a>
+                <a href="/admin/logout" class="logout-btn"><span class="icon">🚪</span> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar">☰</button>
+                    <h2>Collections</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search..." class="search-input">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                    <div class="admin-profile">
+                        <span class="admin-name">Admin User</span>
+                        <div class="admin-avatar">A</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <section class="admin-section">
+                    <div class="section-header">
+                        <h2>Collections</h2>
+                        <button class="add-btn" id="add-collection-btn">+ Add Collection</button>
+                    </div>
+
+                    <!-- Add Collection Form -->
+                    <div class="form-container" id="add-collection-form">
+                        <h3>Add New Collection</h3>
+                        <form action="/admin/add-collection" method="POST">
+                            <div class="form-group">
+                                <label for="collection-name">Collection Name</label>
+                                <input type="text" id="collection-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="collection-description">Description</label>
+                                <textarea id="collection-description" name="description" rows="3" required></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="cancel-btn" id="cancel-collection">Cancel</button>
+                                <button type="submit" class="submit-btn">Save Collection</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Collections List -->
+                    <div class="collections-list">
+                        <% collections.forEach(c => { %>
+                            <div class="collection-card">
+                                <div class="collection-header">
+                                    <h3><%= c.name %></h3>
+                                    <div class="collection-actions">
+                                        <button class="edit-collection-btn"
+                                            data-id="<%= c._id %>"
+                                            data-name="<%= c.name %>"
+                                            data-description="<%= c.description %>">
+                                            Edit
+                                        </button>
+                                        <form action="/admin/delete-collection/<%= c._id %>" method="POST" style="display:inline;">
+                                            <button type="submit" class="delete-btn">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <p class="collection-description"><%= c.description %></p>
+                                <div class="collection-stats">
+                                    <span><%= collectionCounts[c._id] %> Products</span>
+                                    <span>₦0 Sales</span>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                    
+                    <!-- Edit Collection Modal -->
+                    <div class="modal" id="edit-collection-modal" style="display:none;">
+                        <div class="modal-content">
+                            <h3>Edit Collection</h3>
+                            <form id="edit-collection-form" method="POST">
+                                <input type="hidden" name="id" id="edit-collection-id">
+                                <div class="form-group">
+                                    <label for="edit-collection-name">Collection Name</label>
+                                    <input type="text" name="name" id="edit-collection-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-collection-description">Description</label>
+                                    <textarea name="description" id="edit-collection-description" rows="3" required></textarea>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" class="cancel-btn" id="cancel-edit-collection">Cancel</button>
+                                    <button type="submit" class="submit-btn">Update Collection</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // // Toggle sidebar
+            // document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            //     document.querySelector('.sidebar').classList.toggle('active');
+            //     document.querySelector('.main-content').classList.toggle('sidebar-active');
+            // });
+            
+            // Edit collection modal
+            document.querySelectorAll('.edit-collection-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const name = this.dataset.name;
+                    const description = this.dataset.description;
+                    
+                    document.getElementById('edit-collection-id').value = id;
+                    document.getElementById('edit-collection-name').value = name;
+                    document.getElementById('edit-collection-description').value = description;
+                    
+                    document.getElementById('edit-collection-modal').style.display = 'flex';
+                });
+            });
+            
+            document.getElementById('cancel-edit-collection').addEventListener('click', function() {
+                document.getElementById('edit-collection-modal').style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

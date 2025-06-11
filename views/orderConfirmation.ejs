@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation | IVORY BEAUTY</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/orderConfirmation.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-transition"></div>
+
+    <header>
+        <div class="logo">IVORY BEAUTY</div>
+        <div class="search-container">
+            <input type="text" placeholder="Search products..." class="search-input">
+            <button class="search-btn">
+                <span class="search-icon">&#9906;</span>
+            </button>
+        </div>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Collection</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <div class="auth-icons">
+                <a href="#" class="icon-btn" aria-label="Sign in">
+                    <span class="icon">&#128100;</span>
+                </a>
+            </div>
+            <div class="cart-icon">
+                <a href="/cart" class="icon-btn" aria-label="Shopping cart">
+                    <span class="icon">&#128722;</span>
+                    <span class="cart-count"><%= cartCount %></span>
+                </a>
+            </div>
+        </div>
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="mobile-nav">
+            <div class="mobile-nav-header">
+                <div class="logo">IVORY BEAUTY</div>
+                <div class="close-menu">×</div>
+            </div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Collection</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="mobile-nav-footer">
+                <div class="mobile-search">
+                    <input type="text" placeholder="Search products..." class="search-input">
+                    <button class="search-btn">
+                        <span class="search-icon">&#9906;</span>
+                    </button>
+                </div>
+                <div class="mobile-actions">
+                    <a href="#" class="btn-outline">Sign In</a>
+                    <a href="#" class="btn">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="confirmation-main">
+        <div class="confirmation-container">
+            <div class="confirmation-header">
+                <div class="confirmation-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4BB543">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                    </svg>
+                </div>
+                <h1 class="confirmation-title">Order Confirmed</h1>
+                <p class="confirmation-subtitle">Thank you for your purchase, <%= user.name %>!</p>
+                <p class="confirmation-text">Your order <%= order._id.toString().slice(-8).toUpperCase() %> has been received and is being processed.</p>
+            </div>
+
+            <div class="order-details">
+                <div class="detail-card">
+                    <h2>
+                        <!-- <span class="detail-icon">📦</span> -->
+                        Shipping Details
+                    </h2>
+                    <div class="detail-content">
+                        <p><strong>Name:</strong> <%= user.name %></p>
+                        <p><strong>Address:</strong> <%= user.address %></p>
+                        <p><strong>Delivery Method:</strong> <%= order.shippingInfo.shippingMethod %></p>
+                        <p><strong>Estimated Delivery:</strong> <%= new Date(Date.now() + 3*24*60*60*1000).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) %></p>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <h2>
+                        <!-- <span class="detail-icon">💳</span> -->
+                        Payment Details
+                    </h2>
+                    <div class="detail-content">
+                        <p><strong>Method:</strong> 
+                            <% if (order.paymentInfo && order.paymentInfo.method) { %>
+                                <%= order.paymentInfo.method.toUpperCase() %>
+                            <% } else { %>
+                                Paystack
+                            <% } %>
+                        </p>
+                        <p><strong>Amount Paid:</strong> ₦<%= order.total.toFixed(2) %></p>
+                        <p><strong>Payment Status:</strong> 
+                            <span class="status-badge confirmed">Confirmed</span>
+                        </p>
+                        <% if (order.paymentReference) { %>
+                            <p><strong>Transaction ID:</strong> <%= order.paymentReference %></p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-summary">
+                <h2 class="summary-title">Order Summary</h2>
+                
+                <div class="order-items">
+                    <% order.items.forEach(item => { %>
+                    <div class="order-item">
+                        <div class="item-image">
+                            <img src="<%= item.product.imageUrl || '/images/default-product.jpg' %>" alt="<%= item.product.name %>">
+                        </div>
+                        <div class="item-details">
+                            <h3 class="item-name"><%= item.product.name %></h3>
+                            <p class="item-price">₦<%= item.priceAtPurchase.toFixed(2) %> × <%= item.quantity %></p>
+                        </div>
+                        <div class="item-total">₦<%= (item.priceAtPurchase * item.quantity).toFixed(2) %></div>
+                    </div>
+                    <% }) %>
+                </div>
+
+                <div class="order-totals">
+                    <div class="total-line">
+                        <span>Subtotal</span>
+                        <span>₦<%= (order.subtotal || 0).toFixed(2) %></span>
+                    </div>
+                    <!-- <div class="total-line">
+                        <span>Shipping</span>
+                        <span>₦<%= (order.shippingCost || 0).toFixed(2) %></span>
+                    </div> -->
+                    <div class="total-line">
+                        <span>Tax</span>
+                        <span>₦<%= (order.tax || 0).toFixed(2) %></span>
+                    </div>
+                    <div class="total-line grand-total">
+                        <span>Total</span>
+                        <span>₦<%= (order.total || 0).toFixed(2) %></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="confirmation-actions">
+                <a href="/" class="btn btn-outline">Continue Shopping</a>
+                <a href="/orders/history" class="btn btn-primary">View Order History</a>
+            </div>
+
+            <div class="confirmation-support">
+                <p>Need help with your order? <a href="/contact">Contact our support team</a></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Your existing footer from order.ejs -->
+
+    <script src="/js/animations.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Animate elements on page load
+    const animateElements = () => {
+        const elements = document.querySelectorAll('.confirmation-header, .detail-card, .order-summary, .confirmation-actions, .confirmation-support');
+        
+        elements.forEach((el, index) => {
+            setTimeout(() => {
+                el.classList.add('active');
+            }, index * 200);
+        });
+    };
+
+    // Trigger animations after short delay
+    setTimeout(animateElements, 300);
+
+    // Add any additional interactive elements here
+    });
+    </script>
+</body>
+</html>

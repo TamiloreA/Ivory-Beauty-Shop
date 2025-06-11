@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | IVORY BEAUTY</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">IVORY BEAUTY</h1>
+                <p class="admin-label">Admin Panel</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><a href="/admin/dashboard"><span class="icon">📊</span> Dashboard</a></li>
+                    <li><a href="/admin/collections"><span class="icon">📁</span> Collections</a></li>
+                    <li><a href="/admin/products"><span class="icon">🏷️</span> Products</a></li>
+                    <li><a href="/admin/orders"><span class="icon">📦</span> Orders</a></li>
+                    <li><a href="/admin/dashboard"><span class="icon">👥</span> Customers</a></li>
+                    <li><a href="#settings"><span class="icon">⚙️</span> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/" class="view-site-btn"><span class="icon">🌐</span> View Site</a>
+                <a href="#" class="logout-btn"><span class="icon">🚪</span> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar">☰</button>
+                    <h2>Dashboard</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search..." class="search-input">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                    <div class="admin-profile">
+                        <span class="admin-name">Admin User</span>
+                        <div class="admin-avatar">A</div>
+                    </div>
+                </div>
+            </header>
+            
+
+            <div class="content-wrapper">
+                <!-- Dashboard Overview -->
+                <section class="dashboard-overview">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-content">
+                                <h3>Total Sales</h3>
+                                <p class="stat-value">₦<%= totalSales %></p>
+                                <p class="stat-change positive">+15% from last month</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🛒</div>
+                            <div class="stat-content">
+                                <h3>Orders</h3>
+                                <p class="stat-value"><%= totalOrders %></p>
+                                <p class="stat-change positive">+8% from last month</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-content">
+                                <h3>Customers</h3>
+                                <p class="stat-value"><%= totalCustomers %></p>
+                                <p class="stat-change positive">+12% from last month</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🏷️</div>
+                            <div class="stat-content">
+                                <h3>Products</h3>
+                                <p class="stat-value"><%= totalProducts %></p>
+                                <p class="stat-change neutral">No change</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Collections Section -->
+                <section class="admin-section" id="collections-section">
+                    <div class="section-header">
+                        <h2>Collections</h2>
+                        <button class="add-btn" id="add-collection-btn">+ Add Collection</button>
+                    </div>
+
+                    <!-- Add Collection Form (Hidden by default) -->
+                    <div class="form-container" id="add-collection-form">
+                        <h3>Add New Collection</h3>
+                        <form action="/admin/add-collection" method="POST">
+                            <div class="form-group">
+                                <label for="collection-name">Collection Name</label>
+                                <input type="text" id="collection-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="collection-description">Description</label>
+                                <textarea id="collection-description" name="description" rows="3" required></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="cancel-btn" id="cancel-collection">Cancel</button>
+                                <button type="submit" class="submit-btn">Save Collection</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Collections List -->
+                    <div class="collections-list">
+                        <% collections.forEach(c => { %>
+                          <div class="collection-card">
+                            <div class="collection-header">
+                              <h3><%= c.name %></h3>
+                              <div class="collection-actions">
+                                <button class="edit-collection-btn"
+                                    data-id="<%= c._id %>"
+                                    data-name="<%= c.name %>"
+                                    data-description="<%= c.description %>">
+                                    Edit
+                                </button>
+
+                                <form action="/admin/delete-collection/<%= c._id %>" method="POST" style="display:inline;">
+                                    <button type="submit" class="delete-btn">Delete</button>
+                                </form>                                  
+                              </div>
+                            </div>
+                            <p class="collection-description"><%= c.description %></p>
+                            <div class="collection-stats">
+                                <span><%= collectionCounts[c._id] %> Products</span>
+                              <span>₦0 Sales</span>
+                            </div>
+                          </div>
+                        <% }) %>
+                      </div>
+                      
+                      <!-- Edit Collection Modal -->
+                        <div class="modal" id="edit-collection-modal" style="display:none;">
+                            <div class="modal-content">
+                            <h3>Edit Collection</h3>
+                            <form id="edit-collection-form" method="POST">
+                                <input type="hidden" name="id" id="edit-collection-id">
+                        
+                                <div class="form-group">
+                                <label for="edit-collection-name">Collection Name</label>
+                                <input type="text" name="name" id="edit-collection-name" required>
+                                </div>
+                                <div class="form-group">
+                                <label for="edit-collection-description">Description</label>
+                                <textarea name="description" id="edit-collection-description" rows="3" required></textarea>
+                                </div>
+                                <div class="form-actions">
+                                <button type="button" class="cancel-btn" id="cancel-edit-collection">Cancel</button>
+                                <button type="submit" class="submit-btn">Update Collection</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                </section>
+
+                <!-- Products Section -->
+                <section class="admin-section" id="products-section">
+                    <div class="section-header">
+                        <h2>Products</h2>
+                        <button class="add-btn" id="add-product-btn">+ Add Product</button>
+                    </div>
+
+                    <!-- Add Product Form (Hidden by default) -->
+                    <div class="form-container" id="add-product-form">
+                        <h3>Add New Product</h3>
+                        <form action="/admin/add-product" method="POST">
+                            <div class="form-group">
+                                <label for="product-name">Product Name</label>
+                                <input type="text" id="product-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-description">Description</label>
+                                <textarea id="product-description" name="description" rows="3" required></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-price">Price (₦)</label>
+                                    <input type="number" id="product-price" name="price" min="0" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-collection">Collection</label>
+                                    <select id="product-collection" name="collectionId" required>
+                                        <option value="">Select a collection</option>
+                                        <% collections.forEach(c => { %>
+                                          <option value="<%= c._id %>"><%= c.name %></option>
+                                        <% }) %>
+                                      </select>
+                                      
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-description">Quantity</label>
+                                <input type="number" id="product-quantity" name="quantity" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-image">Image URL</label>
+                                <input type="text" id="product-image" name="imageUrl" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Upload Image</label>
+                                <div class="file-upload">
+                                    <input type="file" id="product-image-upload" accept="image/*">
+                                    <label for="product-image-upload" class="file-upload-btn">Choose File</label>
+                                    <span class="file-name">No file chosen</span>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="cancel-btn" id="cancel-product">Cancel</button>
+                                <button type="submit" class="submit-btn">Save Product</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Products Table -->
+                    <div class="table-container">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Collection</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% products.forEach(p => { %>
+                                  <tr>
+                                    <td><div class="product-thumbnail" style="background-image: url('<%= p.imageUrl %>'); background-size: cover;"></div></td>
+                                    <td><%= p.name %></td>
+                                    <td><%= p.collection.name %></td>
+                                    <td>₦<%= p.price.toFixed(2) %></td>
+                                    <%
+                                        const qty = parseInt(p.quantity, 10);
+                                        let statusClass, statusLabel;
+
+                                        if (qty > 10) {
+                                            statusClass = 'in-stock';
+                                            statusLabel = 'In Stock';
+                                        } else if (qty > 0 && qty <= 10) {
+                                            statusClass = 'low-stock';
+                                            statusLabel = 'Low Stock';
+                                        } else {
+                                            statusClass = 'out-of-stock';
+                                            statusLabel = 'Out of Stock';
+                                        }
+                                    %>
+                                    <td><span class="status <%= statusClass %>"><%= statusLabel %></span></td>
+                                    <td>
+                                      <div class="table-actions">
+                                        <button class="edit-btn"
+                                            data-id="<%= p._id %>"
+                                            data-name="<%= p.name %>"
+                                            data-description="<%= p.description %>"
+                                            data-price="<%= p.price %>"
+                                            data-quantity="<%= p.quantity %>"
+                                            data-image="<%= p.imageUrl %>">
+                                            Edit
+                                        </button>
+                                        <form action="/admin/delete-product/<%= p._id %>" method="POST" style="display:inline;">
+                                            <button type="submit" class="delete-btn">Delete</button>
+                                        </form>                                          
+                                      </div>
+                                    </td>
+                                  </tr>
+                                <% }) %>
+                              </tbody>
+                              
+                        </table>
+
+                        <!-- Edit Product Modal -->
+                        <div class="modal" id="edit-product-modal" style="display:none;">
+                            <div class="modal-content">
+                            <h3>Edit Product</h3>
+                            <form id="edit-product-form" method="POST">
+                                <input type="hidden" name="id" id="edit-product-id">
+                        
+                                <div class="form-group">
+                                <label for="edit-product-name">Product Name</label>
+                                <input type="text" name="name" id="edit-product-name" required>
+                                </div>
+                                <div class="form-group">
+                                <label for="edit-product-description">Description</label>
+                                <textarea name="description" id="edit-product-description" rows="3" required></textarea>
+                                </div>
+                                <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edit-product-price">Price</label>
+                                    <input type="number" name="price" id="edit-product-price" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-product-quantity">Quantity</label>
+                                    <input type="number" name="quantity" id="edit-product-quantity" required>
+                                </div>
+                                </div>
+                                <div class="form-group">
+                                <label for="edit-product-image">Image URL</label>
+                                <input type="text" name="imageUrl" id="edit-product-image" required>
+                                </div>
+                                <div class="form-actions">
+                                <button type="button" class="cancel-btn" id="cancel-edit">Cancel</button>
+                                <button type="submit" class="submit-btn">Update Product</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+  
+                    </div>
+                </section>
+
+                <!-- Recent Orders Section -->
+                <section class="admin-section" id="recent-orders">
+                    <div class="section-header">
+                      <h2>Recent Orders</h2>
+                      <div>
+                        <a href="/admin/export-orders" class="view-all-btn" id="export-orders-btn">Export to Excel</a>
+                        <a href="#orders" class="view-all-btn">View All Orders</a>
+                      </div>
+                    </div>
+                    <div class="table-container">
+                      <table class="orders-table">
+                        <thead>
+                          <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Contact</th>
+                            <th>Date</th>
+                            <th>Items</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% if (recentOrders.length === 0) { %>
+                            <tr>
+                              <td colspan="8" style="text-align: center;">No recent orders</td>
+                            </tr>
+                          <% } else { %>
+                            <% recentOrders.forEach(order => { %>
+                              <tr data-order-id="<%= order._id %>">
+                                <td>#<%= order._id.toString().slice(-6).toUpperCase() %></td>
+                                <td>
+                                  <div class="customer-info">
+                                    <div class="customer-name"><%= order.user ? order.user.name : 'Guest' %></div>
+                                    <% if (order.user) { %>
+                                      <div class="customer-address"><%= order.user.address %></div>
+                                    <% } %>
+                                  </div>
+                                </td>
+                                <td>
+                                  <% if (order.user) { %>
+                                    <div class="contact-info">
+                                      <div><%= order.user.email %></div>
+                                      <div><%= order.user.phone %></div>
+                                    </div>
+                                  <% } else { %>
+                                    N/A
+                                  <% } %>
+                                </td>
+                                <td><%= order.formattedDate %></td>
+                                <td>
+                                  <div class="order-items">
+                                    <% order.items.forEach(item => { %>
+                                      <div><%= item.product?.name || 'Unknown Product' %> × <%= item.quantity %></div>
+                                    <% }) %>
+                                  </div>
+                                </td>
+                                <td>₦<%= order.total.toFixed(2) %></td>
+                                <td>
+                                  <% 
+                                    let statusClass, statusText;
+                                    switch (order.status) {
+                                      case 'delivered':
+                                        statusClass = 'completed';
+                                        statusText = 'Delivered';
+                                        break;
+                                      case 'processing':
+                                        statusClass = 'processing';
+                                        statusText = 'Processing';
+                                        break;
+                                      case 'shipped':
+                                        statusClass = 'shipped';
+                                        statusText = 'Shipped';
+                                        break;
+                                      case 'cancelled':
+                                        statusClass = 'cancelled';
+                                        statusText = 'Cancelled';
+                                        break;
+                                      case 'pending-payment':
+                                        statusClass = 'pending';
+                                        statusText = 'Pending Payment';
+                                        break;
+                                      case 'failed':
+                                        statusClass = 'failed';
+                                        statusText = 'Failed';
+                                        break;
+                                      default:
+                                        statusClass = 'processing';
+                                        statusText = order.status;
+                                    }
+                                  %>
+                                  <span class="status <%= statusClass %>"><%= statusText %></span>
+                                </td>
+                                <td>
+                                  <div class="table-actions">
+                                    <select class="status-select" data-order-id="<%= order._id %>">
+                                      <option value="processing" <%= order.status === 'processing' ? 'selected' : '' %>>Processing</option>
+                                      <option value="shipped" <%= order.status === 'shipped' ? 'selected' : '' %>>Shipped</option>
+                                      <option value="delivered" <%= order.status === 'delivered' ? 'selected' : '' %>>Delivered</option>
+                                      <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+                                    </select>
+                                  </div>
+                                </td>
+                              </tr>
+                            <% }) %>
+                          <% } %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Order | IVORY BEAUTY</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/order.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="page-transition"></div>
+
+    <header>
+        <div class="logo">IVORY BEAUTY</div>
+        <div class="search-container">
+            <input type="text" placeholder="Search products..." class="search-input">
+            <button class="search-btn">
+                <span class="search-icon">&#9906;</span>
+            </button>
+        </div>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Collection</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <div class="auth-icons">
+                <a href="#" class="icon-btn" aria-label="Sign in">
+                    <span class="icon">&#128100;</span>
+                </a>
+            </div>
+            <div class="cart-icon">
+                <a href="/cart" class="icon-btn" aria-label="Shopping cart">
+                    <span class="icon">&#128722;</span>
+                    <span class="cart-count"><%= cartCount %></span>
+                </a>
+            </div>
+        </div>
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="mobile-nav">
+            <div class="mobile-nav-header">
+                <div class="logo">IVORY BEAUTY</div>
+                <div class="close-menu">×</div>
+            </div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Collection</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="mobile-nav-footer">
+                <div class="mobile-search">
+                    <input type="text" placeholder="Search products..." class="search-input">
+                    <button class="search-btn">
+                        <span class="search-icon">&#9906;</span>
+                    </button>
+                </div>
+                <div class="mobile-actions">
+                    <a href="#" class="btn-outline">Sign In</a>
+                    <a href="#" class="btn">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="order-main">
+        <div class="order-container">
+            <!-- Progress Indicator -->
+            <div class="progress-indicator reveal">
+                <div class="progress-step active">
+                    <div class="step-number">1</div>
+                    <span class="step-label">Information</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-number">2</div>
+                    <span class="step-label">Payment</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-number">3</div>
+                    <span class="step-label">Confirmation</span>
+                </div>
+            </div>
+
+            <div class="order-content">
+                <!-- Left Column - Order Form -->
+                <div class="order-form-section">
+                    <div class="section-header reveal">
+                        <h1>Complete Your Order</h1>
+                        <p>Just a few more steps to get your beauty essentials</p>
+                    </div>
+
+                    <form class="order-form" id="orderForm" action="/orders/checkout" method="POST">
+                        <!-- Customer Information -->
+                        <div class="form-section reveal delay-1">
+                            <h2>
+                                <!-- <span class="section-icon">👤</span> -->
+                                Customer Information
+                            </h2>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" name="firstName" required>
+                                    <span class="form-focus-line"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" name="lastName" required>
+                                    <span class="form-focus-line"></span>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" required>
+                                    <span class="form-focus-line"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" required>
+                                    <span class="form-focus-line"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Information -->
+                        <div class="form-section reveal delay-2">
+                            <h2>
+                                <!-- <span class="section-icon">🚚</span> -->
+                                Shipping Information
+                            </h2>
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label for="address">Street Address</label>
+                                    <input type="text" id="address" name="address" required>
+                                    <span class="form-focus-line"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" id="city" name="city" required>
+                                    <span class="form-focus-line"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="state">State/Province</label>
+                                    <input type="text" id="state" name="state" required>
+                                    <span class="form-focus-line"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="zipCode">ZIP/Postal Code</label>
+                                    <input type="text" id="zipCode" name="zipCode" required>
+                                    <span class="form-focus-line"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <select id="country" name="country" required>
+                                        <option value="">Select Country</option>
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="UK">United Kingdom</option>
+                                        <option value="AU">Australia</option>
+                                        <option value="DE">Germany</option>
+                                        <option value="FR">France</option>
+                                    </select>
+                                    <span class="form-focus-line"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Method -->
+                        <div class="form-section reveal delay-3">
+                            <h2>
+                                Shipping Method
+                            </h2>
+                            <div class="shipping-options">
+                                <div class="shipping-option">
+                                    <input type="radio" id="standard" name="shipping" value="standard" checked>
+                                    <label for="standard" class="shipping-label">
+                                        <div class="shipping-info">
+                                            <span class="shipping-name">Standard Shipping</span>
+                                            <span class="shipping-time">5-7 business days</span>
+                                        </div>
+                                        <span class="shipping-price">Free</span>
+                                    </label>
+                                </div>
+                                <div class="shipping-option">
+                                    <input type="radio" id="express" name="shipping" value="express">
+                                    <label for="express" class="shipping-label">
+                                        <div class="shipping-info">
+                                            <span class="shipping-name">Express Shipping</span>
+                                            <span class="shipping-time">2-3 business days</span>
+                                        </div>
+                                        <span class="shipping-price">₦9.99</span>
+                                    </label>
+                                </div>
+                                <div class="shipping-option">
+                                    <input type="radio" id="overnight" name="shipping" value="overnight">
+                                    <label for="overnight" class="shipping-label">
+                                        <div class="shipping-info">
+                                            <span class="shipping-name">Overnight Shipping</span>
+                                            <span class="shipping-time">Next business day</span>
+                                        </div>
+                                        <span class="shipping-price">₦24.99</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Information -->
+                        <div class="form-section reveal delay-4">
+                            <h2 class="form-section-title">
+                                <span class="section-icon">💳</span>
+                                Payment Method
+                              </h2>
+                              <div class="payment-method">
+                                <div class="paystack-option">
+                                  <img src="/images/paystack.png" alt="Paystack">
+                                  <p>You'll be redirected to Paystack to complete your payment</p>
+                                </div>
+                              </div>
+                              
+                              <button type="button" id="paystack-button" class="place-order-btn">
+                                <span class="btn-text">Proceed to Paystack</span>
+                                <span class="btn-icon">→</span>
+                              </button>
+                            </div>
+
+                        <!-- Special Instructions -->
+                        <div class="form-section reveal delay-5">
+                            <h2 class="form-section-title">
+                                <span class="section-icon">📝</span>
+                                Special Instructions (Optional)
+                            </h2>
+                            <div class="form-group">
+                                <label for="instructions">Delivery Instructions</label>
+                                <textarea id="instructions" name="instructions" rows="3" placeholder="Any special delivery instructions..."></textarea>
+                                <span class="form-focus-line"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right Column - Order Summary -->
+                <div class="order-summary-section">
+                    <div class="order-summary reveal delay-2">
+                        <h2 class="summary-title">Order Summary</h2>
+                        
+                        <div class="order-items">
+                            <% cartItems.forEach(item => { %>
+                              <div class="order-item">
+                                <div class="item-image">
+                                  <img src="<%= item.imageUrl %>" alt="<%= item.product.name %>">
+                                </div>
+                                <div class="item-details">
+                                  <h3 class="item-name"><%= item.product.name %></h3>
+                                  <p class="item-description"><%= item.product.description.substring(0, 50) %>...</p>
+                                  <div class="item-quantity">Qty: <%= item.quantity %></div>
+                                </div>
+                                <div class="item-price">₦<%= item.total.toFixed(2) %></div>
+                              </div>
+                            <% }) %>
+                          </div>
+
+                          <div class="order-totals">
+                            <div class="total-line">
+                              <span>Subtotal</span>
+                              <span>₦<%= subtotal.toFixed(2) %></span>
+                            </div>
+                            <div class="total-line">
+                              <span>Shipping</span>
+                              <span class="shipping-cost">Free</span>
+                            </div>
+                            <div class="total-line">
+                              <span>Tax</span>
+                              <span>₦<%= (subtotal * 0.075).toFixed(2) %></span>
+                            </div>
+                            <div class="total-line total-final">
+                              <span>Total</span>
+                              <span>₦<%= (subtotal * 1.075).toFixed(2) %></span>
+                            </div>
+                          </div>
+
+                        <div class="promo-code">
+                            <input type="text" placeholder="Enter promo code" class="promo-input">
+                            <button type="button" class="promo-btn">Apply</button>
+                        </div>
+
+                        <button type="submit" form="orderForm" class="place-order-btn">
+                            <span class="btn-text">Place Order</span>
+                            <span class="btn-icon">✨</span>
+                        </button>
+
+                        <div class="security-badges">
+                            <div class="security-badge">
+                                <span class="badge-icon">🔒</span>
+                                <span class="badge-text">Secure Checkout</span>
+                            </div>
+                            <div class="security-badge">
+                                <span class="badge-icon">🛡️</span>
+                                <span class="badge-text">SSL Protected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">IVORY BEAUTY</div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#">All Products</a></li>
+                        <li><a href="#">Bestsellers</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Gift Sets</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="#">Ingredients</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Help</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-social">
+                <a href="#" class="social-icon">Ig</a>
+                <a href="#" class="social-icon">Fb</a>
+                <a href="#" class="social-icon">Pt</a>
+                <a href="#" class="social-icon">Tw</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Ivory Beauty. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/animations.js"></script>
+    <script src="../js/order.js"></script>
+    <script>
+        document.getElementById('paystack-button').addEventListener('click', async function() {
+          const button = this;
+          button.disabled = true;
+          button.querySelector('.btn-text').textContent = 'Redirecting to Paystack...';
+      
+          try {
+            const response = await fetch('/payment/initiate', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+      
+            const data = await response.json();
+            
+            if (data.authorization_url) {
+              window.location.href = data.authorization_url;
+            } else {
+              throw new Error('Failed to get payment URL');
+            }
+          } catch (error) {
+            console.error('Payment error:', error);
+            alert('Payment initialization failed. Please try again.');
+            button.disabled = false;
+            button.querySelector('.btn-text').textContent = 'Proceed to Paystack';
+          }
+        });
+      </script>
+</body>
+</html>

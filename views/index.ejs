@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essence | Beauty in Simplicity</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="loader">
+        <div class="loader-text">IVORY BEAUTY</div>
+    </div>
+
+    <header>
+        <div class="logo">IVORY BEAUTY</div>
+        <div class="search-container">
+            <input type="text" placeholder="Search products..." class="search-input">
+            <button class="search-btn">
+                <span class="search-icon">&#9906;</span>
+            </button>
+        </div>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Collection</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <div class="auth-icons">
+                <a href="/login" class="icon-btn" aria-label="Sign in">
+                    <span class="icon">&#128100;</span>
+                </a>
+            </div>
+            <div class="cart-icon">
+                <a href="/cart" class="icon-btn" aria-label="Shopping cart">
+                    <span class="icon">&#128722;</span>
+                    <span class="cart-count"><%= cartCount %></span>
+                </a>
+            </div>
+        </div>
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="mobile-nav">
+            <div class="mobile-nav-header">
+                <div class="logo">IVORY BEAUTY</div>
+                <div class="close-menu">×</div>
+            </div>
+            <ul>
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Collection</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="mobile-nav-footer">
+                <div class="mobile-search">
+                    <input type="text" placeholder="Search products..." class="search-input">
+                    <button class="search-btn">
+                        <span class="search-icon">&#9906;</span>
+                    </button>
+                </div>
+                <div class="mobile-actions">
+                    <a href="/login" class="btn-outline">Sign In</a>
+                    <a href="/signup" class="btn">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="fade-in">Beauty in <span class="highlight">Simplicity</span></h1>
+                <p class="fade-in delay-1">Discover skincare that celebrates your natural essence</p>
+                <button class="btn fade-in delay-2">Explore Collection</button>
+            </div>
+            <div class="hero-image fade-in delay-1">
+                <div class="product-image"></div>
+                <div class="circle"></div>
+            </div>
+        </section>
+
+        <section class="featured">
+            <h2 class="section-title reveal">Featured Products</h2>
+            <div class="products-container">
+                <% products.slice(0, 3).forEach(product => { %>
+                <div class="collection-item reveal">
+                    <div class="collection-img">
+                        <img src="<%= product.imageUrl %>" alt="<%= product.name %>" style="width: 100%;">
+                        <div class="hover-reveal"></div>
+                    </div>
+                    <h3><%= product.name %></h3>
+                    <p><%= product.description %></p>
+                    <span class="price">₦<%= product.price %></span>
+                    
+                    <% if (userId) { %>
+                    <form action="/cart/add-to-cart" method="POST">
+                        <input type="hidden" name="productId" value="<%= product._id %>">
+                        <input type="number" name="quantity" value="1" min="1" style="width: 50px;">
+                        <button type="submit" class="btn-outline add-to-cart">Add to Cart</button>
+                    </form>
+                    <% } else { %>
+                    <a href="/login" class="btn-outline">Sign in to add to cart</a>
+                    <% } %>
+                </div>
+                <% }) %>
+            </div>
+        </section>
+          
+
+        <section class="bestsellers">
+            <h2 class="section-title reveal">Bestselling Collections</h2>
+            <div class="collection-tabs">
+                <button class="tab-btn active" data-tab="skincare">Skincare</button>
+                <button class="tab-btn" data-tab="makeup">Makeup</button>
+                <button class="tab-btn" data-tab="fragrance">Fragrance</button>
+            </div>
+            <div class="collections-container">
+                <div class="collection-tab active" id="skincare">
+                    <div class="collection-grid">
+                        <div class="collection-item reveal">
+                            <div class="collection-img">
+                                <div class="hover-reveal"></div>
+                            </div>
+                            <h3>Hydration Collection</h3>
+                            <p>Complete routine for dry skin</p>
+                            <button class="btn-outline">View Collection</button>
+                        </div>
+                        <div class="collection-item reveal delay-1">
+                            <div class="collection-img">
+                                <div class="hover-reveal"></div>
+                            </div>
+                            <h3>Radiance Essentials</h3>
+                            <p>For dull, tired skin</p>
+                            <button class="btn-outline">View Collection</button>
+                        </div>
+                        <div class="collection-item reveal delay-2">
+                            <div class="collection-img">
+                                <div class="hover-reveal"></div>
+                            </div>
+                            <h3>Calming Ritual</h3>
+                            <p>Soothe sensitive skin</p>
+                            <button class="btn-outline">View Collection</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="collection-tab" id="makeup">
+                    <div class="collection-grid">
+                        <div class="collection-item">
+                            <div class="collection-img">
+                                <div class="hover-reveal"></div>
+                            </div>
+                            <h3>Natural Glow</h3>
+                            <p>Everyday essentials</p>
+                            <button class="btn-outline">View Collection</button>
+                        </div>
+                        <div class="collection-item">
+                            <div class="collection-img">
+                                <div class="hover-reveal"></div>
+                            </div>
+                            <h3>Evening Elegance</h3>
+                            <p>Special occasion makeup</p>
+                            <button class="btn-outline">View Collection</button>
+                        </div>
+                        <div class="collection-item">
+                            <div class="collection-img">
+                                <div class="hover-reveal"></div>
+                            </div>
+                            <h3>Lip Collection</h3>
+                            <p>Signature lip colors</p>
+                            <button class="btn-outline">View Collection</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="collection-tab" id="fragrance">
+                    <div class="collection-grid">
+                        <div class="collection-item">
+                            <div class="collection-img">
+                                <div class="hover-reveal"></div>
+                            </div>
+                            <h3>Floral Dreams</h3>
+                            <p>Delicate floral scents</p>
+                            <button class="btn-outline">View Collection</button>
+                        </div>
+                        <div class="collection-item">
+                            <div class="collection-img">
+                                <div class="hover-reveal"></div>
+                            </div>
+                            <h3>Warm Embrace</h3>
+                            <p>Cozy, comforting fragrances</p>
+                            <button class="btn-outline">View Collection</button>
+                        </div>
+                        <div class="collection-item">
+                            <div class="collection-img">
+                                <div class="hover-reveal"></div>
+                            </div>
+                            <h3>Fresh Citrus</h3>
+                            <p>Energizing scent collection</p>
+                            <button class="btn-outline">View Collection</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="philosophy">
+            <div class="philosophy-content reveal">
+                <h2>Our Philosophy</h2>
+                <p>We believe in the power of simplicity. Our products are crafted with minimal, high-quality ingredients that work in harmony with your skin.</p>
+                <a href="about.html" class="text-link">Learn more about us</a>
+            </div>
+            <div class="philosophy-image reveal delay-1">
+                <div class="image-container"></div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h2 class="section-title reveal">What Our Customers Say</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial active">
+                    <p>"These products transformed my skincare routine. Simple, effective, and beautiful."</p>
+                    <span class="author">— Emma L.</span>
+                </div>
+                <div class="testimonial">
+                    <p>"The perfect balance of luxury and simplicity. My skin has never felt better."</p>
+                    <span class="author">— Sarah J.</span>
+                </div>
+                <div class="testimonial">
+                    <p>"Essence understands that beauty doesn't need to be complicated to be effective."</p>
+                    <span class="author">— Maya T.</span>
+                </div>
+                <div class="dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="why-choose-us">
+            <h2 class="section-title reveal">Why Choose Ivory Beauty</h2>
+            <div class="features-grid">
+                <div class="feature reveal">
+                    <div class="feature-icon">
+                        <div class="circle"></div>
+                    </div>
+                    <h3>Clean Ingredients</h3>
+                    <p>Our products are formulated without harmful chemicals, ensuring they're gentle on your skin and the environment.</p>
+                </div>
+                <div class="feature reveal delay-1">
+                    <div class="feature-icon">
+                        <div class="circle"></div>
+                    </div>
+                    <h3>Cruelty-Free</h3>
+                    <p>We never test on animals and are committed to ethical beauty practices at every step.</p>
+                </div>
+                <div class="feature reveal delay-2">
+                    <div class="feature-icon">
+                        <div class="circle"></div>
+                    </div>
+                    <h3>Sustainable Packaging</h3>
+                    <p>Our packaging is designed to minimize waste and environmental impact without sacrificing elegance.</p>
+                </div>
+                <div class="feature reveal delay-3">
+                    <div class="feature-icon">
+                        <div class="circle"></div>
+                    </div>
+                    <h3>Proven Results</h3>
+                    <p>Clinically tested formulations that deliver visible results and lasting benefits for your skin.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="newsletter">
+            <div class="newsletter-content reveal">
+                <h2>Join Our Community</h2>
+                <p>Subscribe to receive updates, skincare tips, and exclusive offers.</p>
+                <form>
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit" class="btn">Subscribe</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">IVORY BEAUTY</div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#">All Products</a></li>
+                        <li><a href="#">Bestsellers</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Gift Sets</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="#">Ingredients</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Help</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="/admin/signup">Admin Signup</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-social">
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Ivory Beauty. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/animations.js"></script>
+</body>
+</html>

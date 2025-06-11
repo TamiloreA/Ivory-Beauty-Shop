@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | IVORY BEAUTY Admin</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">IVORY BEAUTY</h1>
+                <p class="admin-label">Admin Panel</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="/admin/dashboard"><span class="icon">📊</span> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="/admin/collections"><span class="icon">📁</span> Collections</a>
+                    </li>
+                    <li class="active">
+                        <a href="/admin/products"><span class="icon">🏷️</span> Products</a>
+                    </li>
+                    <li>
+                        <a href="/admin/orders"><span class="icon">📦</span> Orders</a>
+                    </li>
+                    <li>
+                        <a href="/admin/customers"><span class="icon">👥</span> Customers</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/" class="view-site-btn"><span class="icon">🌐</span> View Site</a>
+                <a href="/admin/logout" class="logout-btn"><span class="icon">🚪</span> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar">☰</button>
+                    <h2>Products</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-container">
+                        <input type="text" placeholder="Search..." class="search-input">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                    <div class="admin-profile">
+                        <span class="admin-name">Admin User</span>
+                        <div class="admin-avatar">A</div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <section class="admin-section">
+                    <div class="section-header">
+                        <h2>Products</h2>
+                        <button class="add-btn" id="add-product-btn">+ Add Product</button>
+                    </div>
+
+                    <!-- Add Product Form -->
+                    <div class="form-container" id="add-product-form">
+                        <h3>Add New Product</h3>
+                        <form action="/admin/add-product" method="POST">
+                            <div class="form-group">
+                                <label for="product-name">Product Name</label>
+                                <input type="text" id="product-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-description">Description</label>
+                                <textarea id="product-description" name="description" rows="3" required></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-price">Price (₦)</label>
+                                    <input type="number" id="product-price" name="price" min="0" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-collection">Collection</label>
+                                    <select id="product-collection" name="collectionId" required>
+                                        <option value="">Select a collection</option>
+                                        <% collections.forEach(c => { %>
+                                            <option value="<%= c._id %>"><%= c.name %></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-quantity">Quantity</label>
+                                <input type="number" id="product-quantity" name="quantity" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-image">Image URL</label>
+                                <input type="text" id="product-image" name="imageUrl" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Upload Image</label>
+                                <div class="file-upload">
+                                    <input type="file" id="product-image-upload" accept="image/*">
+                                    <label for="product-image-upload" class="file-upload-btn">Choose File</label>
+                                    <span class="file-name">No file chosen</span>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="cancel-btn" id="cancel-product">Cancel</button>
+                                <button type="submit" class="submit-btn">Save Product</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Products Table -->
+                    <div class="table-container">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Collection</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% products.forEach(p => { %>
+                                    <tr>
+                                        <td>
+                                            <div class="product-thumbnail" 
+                                                style="background-image: url('<%= p.imageUrl %>'); background-size: cover;">
+                                            </div>
+                                        </td>
+                                        <td><%= p.name %></td>
+                                        <td><%= p.collectionRef?.name || 'No Collection' %></td>
+                                        <td>₦<%= p.price.toFixed(2) %></td>
+                                        <%
+                                            const qty = parseInt(p.quantity, 10);
+                                            let statusClass, statusLabel;
+
+                                            if (qty > 10) {
+                                                statusClass = 'in-stock';
+                                                statusLabel = 'In Stock';
+                                            } else if (qty > 0 && qty <= 10) {
+                                                statusClass = 'low-stock';
+                                                statusLabel = 'Low Stock';
+                                            } else {
+                                                statusClass = 'out-of-stock';
+                                                statusLabel = 'Out of Stock';
+                                            }
+                                        %>
+                                        <td><span class="status <%= statusClass %>"><%= statusLabel %></span></td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <button class="edit-btn"
+                                                    data-id="<%= p._id %>"
+                                                    data-name="<%= p.name %>"
+                                                    data-description="<%= p.description %>"
+                                                    data-price="<%= p.price %>"
+                                                    data-quantity="<%= p.quantity %>"
+                                                    data-image="<%= p.imageUrl %>"
+                                                    data-collection="<%= p.collectionRef?._id %>">
+                                                    Edit
+                                                </button>
+                                                <form action="/admin/delete-product/<%= p._id %>" method="POST" style="display:inline;">
+                                                    <button type="submit" class="delete-btn">Delete</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+
+                        <!-- Edit Product Modal -->
+                        <div class="modal" id="edit-product-modal" style="display:none;">
+                            <div class="modal-content">
+                                <h3>Edit Product</h3>
+                                <form id="edit-product-form" method="POST" action="/admin/edit-product">
+                                    <input type="hidden" name="id" id="edit-product-id">
+                                    <div class="form-group">
+                                        <label for="edit-product-name">Product Name</label>
+                                        <input type="text" name="name" id="edit-product-name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-product-description">Description</label>
+                                        <textarea name="description" id="edit-product-description" rows="3" required></textarea>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="edit-product-price">Price</label>
+                                            <input type="number" name="price" id="edit-product-price" step="0.01" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="edit-product-quantity">Quantity</label>
+                                            <input type="number" name="quantity" id="edit-product-quantity" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-product-collection">Collection</label>
+                                        <select name="collectionId" id="edit-product-collection" required>
+                                            <option value="">Select a collection</option>
+                                            <% collections.forEach(c => { %>
+                                                <option value="<%= c._id %>"><%= c.name %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-product-image">Image URL</label>
+                                        <input type="text" name="imageUrl" id="edit-product-image" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Upload Image</label>
+                                        <div class="file-upload">
+                                            <input type="file" id="product-image-upload" accept="image/*">
+                                            <label for="product-image-upload" class="file-upload-btn">Choose File</label>
+                                            <span class="file-name">No file chosen</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="button" class="cancel-btn" id="cancel-edit">Cancel</button>
+                                        <button type="submit" class="submit-btn">Update Product</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // // Toggle sidebar
+            // document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+            //     document.querySelector('.sidebar').classList.toggle('active');
+            //     document.querySelector('.main-content').classList.toggle('sidebar-active');
+            // });
+            
+            // // Product form toggle
+            // document.getElementById('add-product-btn').addEventListener('click', function() {
+            //     document.getElementById('add-product-form').classList.toggle('active');
+            // });
+            
+            // document.getElementById('cancel-product').addEventListener('click', function() {
+            //     document.getElementById('add-product-form').classList.remove('active');
+            // });
+            
+            // Edit product modal
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const name = this.dataset.name;
+                    const description = this.dataset.description;
+                    const price = this.dataset.price;
+                    const quantity = this.dataset.quantity;
+                    const image = this.dataset.image;
+                    const collection = this.dataset.collection;
+                    
+                    document.getElementById('edit-product-id').value = id;
+                    document.getElementById('edit-product-name').value = name;
+                    document.getElementById('edit-product-description').value = description;
+                    document.getElementById('edit-product-price').value = price;
+                    document.getElementById('edit-product-quantity').value = quantity;
+                    document.getElementById('edit-product-image').value = image;
+                    document.getElementById('edit-product-collection').value = collection;
+                    
+                    document.getElementById('edit-product-modal').style.display = 'flex';
+                });
+            });
+            
+            document.getElementById('cancel-edit').addEventListener('click', function() {
+                document.getElementById('edit-product-modal').style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
