@@ -3,6 +3,7 @@ const Product = require('../models/product');
 const Order = require('../models/order');
 const User = require('../models/user');
 const ExcelJS = require('exceljs');
+const upload = require('../config/upload');
 
 exports.addCollection = async (req, res) => {
   try {
@@ -16,19 +17,36 @@ exports.addCollection = async (req, res) => {
 
 exports.addProduct = async (req, res) => {
     try {
-      const { name, description, price, imageUrl, quantity, collectionId } = req.body;
-      await Product.create({
+      const { name, description, price, quantity, collectionId } = req.body;
+      
+      // Validate required fields
+      if (!name || !price || !collectionId) {
+        return res.status(400).send('Missing required fields');
+      }
+  
+      // Handle file upload
+      let imageUrl = '';
+      if (req.file) {
+        imageUrl = req.file.path;
+      } else {
+        console.log('No file uploaded with request');
+      }
+  
+      // Create product
+      const product = new Product({
         name,
         description,
         price,
-        imageUrl,
         quantity: parseInt(quantity, 10),
-        collectionRef: collectionId
-      });      
+        collectionRef: collectionId,
+        imageUrl
+      });
+  
+      await product.save();
       res.redirect('/admin/dashboard');
     } catch (err) {
-      console.error(err);
-      res.status(500).send('Error adding product');
+      console.error('Error adding product:', err);
+      res.status(500).send('Error adding product: ' + err.message);
     }
 };
 
@@ -51,20 +69,34 @@ exports.deleteCollection = async (req, res) => {
 };
 
 exports.updateProduct = async (req, res) => {
-    const { name, description, price, imageUrl, quantity } = req.body;
     try {
-      await Product.findByIdAndUpdate(req.params.id, {
+      const { name, description, price, quantity } = req.body;
+      
+      // Validate required fields
+      if (!name || !price) {
+        return res.status(400).send('Missing required fields');
+      }
+  
+      const updateData = {
         name,
         description,
         price,
-        imageUrl,
         quantity: parseInt(quantity, 10)
-      });
+      };
+  
+      // Handle new image upload
+      if (req.file) {
+        updateData.imageUrl = req.file.path;
+      }
+  
+      await Product.findByIdAndUpdate(req.params.id, updateData);
       res.redirect('/admin/dashboard');
     } catch (err) {
-      res.status(500).send('Failed to update product');
+      console.error('Error updating product:', err);
+      res.status(500).send('Failed to update product: ' + err.message);
     }
 };
+  
 
 exports.updateCollection = async (req, res) => {
     const { name, description } = req.body;

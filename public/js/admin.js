@@ -284,3 +284,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
   
+document.getElementById('product-image-upload').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const previewImage = document.getElementById('preview-image');
+        previewImage.src = event.target.result;
+        previewImage.style.display = 'block';
+        document.getElementById('no-image').style.display = 'none';
+      }
+      reader.readAsDataURL(file);
+    }
+});
+  
+  // Show image preview when editing product
+document.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const imageUrl = this.dataset.image;
+      if (imageUrl) {
+        const previewImage = document.getElementById('preview-image');
+        previewImage.src = imageUrl;
+        previewImage.style.display = 'block';
+        document.getElementById('no-image').style.display = 'none';
+      }
+    });
+});

@@ -45,6 +45,19 @@ app.use((req, res, next)=> {
     next();
 })
 
+app.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+      // Multer errors
+      console.error('Multer error:', err);
+      return res.status(400).send(`File upload error: ${err.message}`);
+    } else if (err) {
+      // Other errors
+      console.error('Server error:', err);
+      return res.status(500).send(`Internal server error: ${err.message}`);
+    }
+    next();
+});
+
 
 const adminRoute = require('./routes/adminRoute');
 const orderRoute = require('./routes/orderRoute');

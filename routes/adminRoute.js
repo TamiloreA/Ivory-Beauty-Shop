@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../controllers/adminAuthController');
 const admin = require('../controllers/adminController');
+const upload = require('../config/upload');
 
 router.get('/signup', auth.getSignup);
 router.post('/signup', auth.signup);
@@ -16,9 +17,17 @@ router.get('/orders', auth.requireAuth, admin.viewOrders);
 router.get('/customers', auth.requireAuth, admin.viewCustomers);
 
 router.post('/add-collection', auth.requireAuth, admin.addCollection);
-router.post('/add-product', auth.requireAuth, admin.addProduct);
+router.post('/add-product', 
+    auth.requireAuth,
+    upload.single('image'),
+    admin.addProduct
+);
 
-router.post('/edit-product/:id', auth.requireAuth, admin.updateProduct);
+router.post('/edit-product/:id',
+    auth.requireAuth,
+    upload.single('image'), 
+    admin.updateProduct
+);
 router.post('/edit-collection/:id', auth.requireAuth, admin.updateCollection);
 
 
