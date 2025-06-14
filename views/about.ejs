@@ -7,7 +7,40 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Fix for Our Values circles */
+        .value-icon-fixed {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+        
+        .value-circle-fixed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: var(--pink-light);
+        }
+        
+        /* Fix header spacing on mobile */
+        @media (max-width: 1024px) {
+            .about-hero {
+                padding-top: 100px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .about-hero {
+                padding-top: 80px;
+            }
+        }
+    </style>
 </head>
 <body class="about-page">
     <div class="cursor"></div>
@@ -25,7 +58,7 @@
             <ul>
                 <li><a href="/" class="active">Home</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="#">Products</a></li>
+                <li><a href="/products">Products</a></li>
                 <li><a href="#">Collection</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
@@ -33,12 +66,12 @@
         <div class="header-icons">
             <div class="auth-icons">
                 <a href="/login" class="icon-btn" aria-label="Sign in">
-                    <span class="icon">&#128100;</span>
+                    <i class="fas fa-user icon"></i>
                 </a>
             </div>
             <div class="cart-icon">
                 <a href="/cart" class="icon-btn" aria-label="Shopping cart">
-                    <span class="icon">&#128722;</span>
+                    <i class="fas fa-shopping-cart icon"></i>
                     <span class="cart-count"><%= cartCount %></span>
                 </a>
             </div>
@@ -56,7 +89,7 @@
             <ul>
                 <li><a href="/" class="active">Home</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="#">Products</a></li>
+                <li><a href="/products">Products</a></li>
                 <li><a href="#">Collection</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
@@ -76,7 +109,7 @@
     </header>
 
     <main>
-        <section class="about-hero">
+        <section class="about-hero" style="padding-top: 80px;">
             <div class="about-hero-content">
                 <h1 class="fade-in">Our <span class="highlight">Story</span></h1>
                 <p class="fade-in delay-1">Founded on the belief that beauty thrives in simplicity</p>
@@ -110,22 +143,23 @@
             <h2 class="section-title reveal">Our Values</h2>
             <div class="values-container">
                 <div class="value-item reveal">
-                    <div class="value-icon">
-                        <div class="circle"></div>
+                    <!-- Fixed circle container -->
+                    <div class="value-icon-fixed">
+                        <div class="value-circle-fixed"></div>
                     </div>
                     <h3>Simplicity</h3>
                     <p>We believe in doing more with less. Our formulations focus on essential ingredients that deliver real results.</p>
                 </div>
                 <div class="value-item reveal delay-1">
-                    <div class="value-icon">
-                        <div class="circle"></div>
+                    <div class="value-icon-fixed">
+                        <div class="value-circle-fixed"></div>
                     </div>
                     <h3>Transparency</h3>
                     <p>We're committed to clear, honest communication about our ingredients, sourcing, and manufacturing processes.</p>
                 </div>
                 <div class="value-item reveal delay-2">
-                    <div class="value-icon">
-                        <div class="circle"></div>
+                    <div class="value-icon-fixed">
+                        <div class="value-circle-fixed"></div>
                     </div>
                     <h3>Sustainability</h3>
                     <p>Our commitment to simplicity extends to our environmental impact, with mindful packaging and responsible sourcing.</p>
@@ -213,10 +247,10 @@
                 </div>
             </div>
             <div class="footer-social">
-                <a href="#" class="social-icon">Ig</a>
-                <a href="#" class="social-icon">Fb</a>
-                <a href="#" class="social-icon">Pt</a>
-                <a href="#" class="social-icon">Tw</a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
             </div>
         </div>
         <div class="footer-bottom">

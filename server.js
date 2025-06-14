@@ -63,6 +63,7 @@ const adminRoute = require('./routes/adminRoute');
 const orderRoute = require('./routes/orderRoute');
 const cartRoute = require('./routes/cartRoute');
 const paymentRoutes = require('./routes/payment');
+const productRoutes = require('./routes/productRoute');
 
 
 //WE IMPORT THE ROUTE FILES
@@ -71,6 +72,7 @@ app.use('/admin', adminRoute);
 app.use('/orders', orderRoute);
 app.use('/cart', cartRoute);
 app.use('/payment', paymentRoutes);
+app.use('/', productRoutes);
 
 
 app.listen(process.env.PORT || 5600, () =>

@@ -39,6 +39,12 @@ exports.addToCart = async (req, res) => {
         }
   
         await cart.save();
+        const cartCount = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+        
+         res.json({ 
+             success: true, 
+             cartCount  // Send back the updated cart count
+         });
       }
   
       res.redirect('/cart');

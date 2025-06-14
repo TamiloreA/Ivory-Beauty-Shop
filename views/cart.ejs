@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/cart.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -24,8 +25,8 @@
         <nav class="desktop-nav">
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="#">Products</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/products">Products</a></li>
                 <li><a href="#">Collection</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
@@ -33,12 +34,12 @@
         <div class="header-icons">
             <div class="auth-icons">
                 <a href="/login" class="icon-btn" aria-label="Sign in">
-                    <span class="icon">&#128100;</span>
+                    <i class="fas fa-user icon"></i>
                 </a>
             </div>
             <div class="cart-icon">
-                <a href="/cart" class="icon-btn active" aria-label="Shopping cart">
-                    <span class="icon">&#128722;</span>
+                <a href="/cart" class="icon-btn" aria-label="Shopping cart">
+                    <i class="fas fa-shopping-cart icon"></i>
                     <span class="cart-count"><%= cartCount %></span>
                 </a>
             </div>
@@ -55,8 +56,8 @@
             </div>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="#">Products</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/products">Products</a></li>
                 <li><a href="#">Collection</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>

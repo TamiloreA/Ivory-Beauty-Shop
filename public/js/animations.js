@@ -82,6 +82,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       })
     }
+
+    if (document.querySelector('.cart-count')) {
+        updateCartCounts();
+    }
     // Cart animation
     const cartIcon = document.querySelector(".cart-icon")
     const cartCount = document.querySelector(".cart-count")
@@ -390,4 +394,65 @@ document.querySelectorAll('a[href]').forEach(link => {
       })
     }
   })
+
+  // Product search functionality
+const productSearch = document.getElementById('product-search');
+if (productSearch) {
+    productSearch.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const productCards = document.querySelectorAll('.product-card');
+        
+        productCards.forEach(card => {
+            const name = card.dataset.name;
+            const description = card.dataset.description;
+            
+            if (name.includes(searchTerm) || description.includes(searchTerm)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+}
+
+// Collection filtering
+const filterButtons = document.querySelectorAll('.filter-btn');
+if (filterButtons.length > 0) {
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const collectionId = this.dataset.collection;
+            const productCards = document.querySelectorAll('.product-card');
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            // Filter products
+            productCards.forEach(card => {
+                if (collectionId === 'all' || card.dataset.collection === collectionId) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+async function updateCartCounts() {
+    try {
+        const response = await fetch('/cart/count');
+        const data = await response.json();
+        
+        if (response.ok) {
+            document.querySelectorAll('.cart-count').forEach(el => {
+                el.textContent = data.count;
+            });
+        }
+    } catch (error) {
+        console.error('Error updating cart count:', error);
+    }
+}
   

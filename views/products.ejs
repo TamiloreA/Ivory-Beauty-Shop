@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products | IVORY BEAUTY</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(255, 182, 193, 0.5);
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+        }
+        
+        .products-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('https://images.unsplash.com/photo-1522338242992-e1a54906a8da?ixlib=rb-4.0.3') center/cover no-repeat;
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 5%;
+            margin-top: 80px;
+        }
+        
+        .products-hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .products-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-image-container {
+            height: 280px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .product-collection {
+            font-size: 0.9rem;
+            color: #ff8da1;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .product-description {
+            color: #888;
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            height: 60px;
+            overflow: hidden;
+        }
+        
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e6e6e6;
+            padding-top: 1.2rem;
+            margin-top: 1rem;
+        }
+        
+        .product-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .add-to-cart-btn {
+            background: #ffb6c1;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .add-to-cart-btn:hover {
+            background: #ff8da1;
+            transform: scale(1.05);
+        }
+        
+        .filters-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 5% 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .collection-filter {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            background: white;
+            border: 1px solid #e6e6e6;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background: #ffb6c1;
+            color: white;
+            border-color: #ffb6c1;
+        }
+        
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.6rem 1rem 0.6rem 40px;
+            border: 1px solid #e6e6e6;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+        
+        .no-products {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            font-style: italic;
+            color: #888;
+        }
+        
+        .no-products h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .products-hero {
+                height: 40vh;
+                margin-top: 70px;
+            }
+            
+            .products-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .filters-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .collection-filter {
+                justify-content: center;
+            }
+            
+            .products-container {
+                padding: 3rem 5%;
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="page-transition"></div>
+    <header>
+        <div class="logo">IVORY BEAUTY</div>
+        <div class="search-container">
+            <input type="text" placeholder="Search products..." class="search-input">
+            <button class="search-btn">
+                <span class="search-icon">&#9906;</span>
+            </button>
+        </div>
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/products" class="active">Products</a></li>
+                <li><a href="/collections">Collections</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <% if (userId) { %>
+                <div class="auth-icons">
+                    <a href="/profile" class="icon-btn" aria-label="Profile">
+                        <i class="fas fa-user icon"></i>
+                    </a>
+                </div>
+            <% } else { %>
+                <div class="auth-icons">
+                    <a href="/login" class="icon-btn" aria-label="Sign in">
+                        <i class="fas fa-user icon"></i>
+                    </a>
+                </div>
+            <% } %>
+            <div class="cart-icon">
+                <a href="/cart" class="icon-btn" aria-label="Shopping cart">
+                    <i class="fas fa-shopping-cart icon"></i>
+                    <span class="cart-count"><%= cartCount %></span>
+                </a>
+            </div>
+        </div>
+        <div class="hamburger-menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div class="mobile-nav">
+            <div class="mobile-nav-header">
+                <div class="logo">IVORY BEAUTY</div>
+                <div class="close-menu">×</div>
+            </div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/products" class="active">Products</a></li>
+                <li><a href="/collections">Collections</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="mobile-nav-footer">
+                <div class="mobile-search">
+                    <input type="text" placeholder="Search products..." class="search-input">
+                    <button class="search-btn">
+                        <span class="search-icon">&#9906;</span>
+                    </button>
+                </div>
+                <div class="mobile-actions">
+                    <% if (userId) { %>
+                        <a href="/profile" class="btn-outline">Profile</a>
+                        <a href="/logout" class="btn">Logout</a>
+                    <% } else { %>
+                        <a href="/login" class="btn-outline">Sign In</a>
+                        <a href="/signup" class="btn">Sign Up</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="products-hero">
+        <div class="hero-content">
+            <h1>Our Luxurious Collection</h1>
+            <p>Discover our premium skincare products crafted with natural ingredients</p>
+        </div>
+    </section>
+
+    <div class="filters-container">
+        <div class="collection-filter">
+            <button class="filter-btn active" data-collection="all">All Products</button>
+            <% collections.forEach(collection => { %>
+                <button class="filter-btn" data-collection="<%= collection._id %>">
+                    <%= collection.name %>
+                </button>
+            <% }); %>
+        </div>
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="product-search" placeholder="Search products...">
+        </div>
+    </div>
+
+    <div class="products-container">
+        <% if (products.length === 0) { %>
+            <div class="no-products">
+                <h3>No products found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+        <% } else { %>
+            <% products.forEach(product => { %>
+                <div class="product-card" 
+                     data-collection="<%= product.collectionRef._id %>"
+                     data-name="<%= product.name.toLowerCase() %>"
+                     data-description="<%= product.description.toLowerCase() %>">
+                    <div class="product-image-container">
+                        <img src="<%= product.imageUrl %>" alt="<%= product.name %>" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title"><%= product.name %></h3>
+                        <div class="product-collection"><%= product.collectionRef.name %></div>
+                        <p class="product-description"><%= product.description %></p>
+                        <div class="product-footer">
+                            <div class="product-price">₦<%= product.price.toFixed(2) %></div>
+                            <button class="add-to-cart-btn" data-product-id="<%= product._id %>">+</button>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">IVORY BEAUTY</div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="/products">All Products</a></li>
+                        <li><a href="#">Bestsellers</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Gift Sets</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="/about">Our Story</a></li>
+                        <li><a href="#">Ingredients</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Help</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-social">
+                <a href="#" class="social-icon">Ig</a>
+                <a href="#" class="social-icon">Fb</a>
+                <a href="#" class="social-icon">Pt</a>
+                <a href="#" class="social-icon">Tw</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 IVORY BEAUTY. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom cursor logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const cursor = document.querySelector('.cursor');
+            
+            // Only add cursor if it doesn't exist in other files
+            if (!document.querySelector('.cursor')) {
+                document.body.appendChild(cursor);
+            }
+            
+            document.addEventListener('mousemove', (e) => {
+                if (cursor) {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                }
+            });
+            
+            // Cursor hover effects
+            const hoverElements = document.querySelectorAll('a, button, .product-card, .add-to-cart-btn');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    if (cursor) {
+                        cursor.style.width = '40px';
+                        cursor.style.height = '40px';
+                    }
+                });
+                el.addEventListener('mouseleave', () => {
+                    if (cursor) {
+                        cursor.style.width = '20px';
+                        cursor.style.height = '20px';
+                    }
+                });
+            });
+
+            // Collection filtering
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const productCards = document.querySelectorAll('.product-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const collectionId = button.dataset.collection;
+                    
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Filter products
+                    productCards.forEach(card => {
+                        if (collectionId === 'all' || card.dataset.collection === collectionId) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Product search
+            const searchInput = document.getElementById('product-search');
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                productCards.forEach(card => {
+                    const name = card.dataset.name;
+                    const description = card.dataset.description;
+                    
+                    if (name.includes(searchTerm) || description.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', async () => {
+                    const productId = button.dataset.productId;
+                    
+                    // Add loading animation
+                    button.innerHTML = '<div class="spinner"></div>';
+                    button.disabled = true;
+                    
+                    try {
+                        const response = await fetch('/cart/add-to-cart', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                productId: productId,
+                                quantity: 1
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            // Update ALL cart count elements on the page
+                            document.querySelectorAll('.cart-count').forEach(el => {
+                                el.textContent = data.cartCount;
+                            });
+                            
+                            // Show success feedback
+                            button.innerHTML = '✓';
+                            button.style.backgroundColor = '#ff8da1';
+                            
+                            setTimeout(() => {
+                                button.innerHTML = '+';
+                                button.style.backgroundColor = '#ffb6c1';
+                                button.disabled = false;
+                            }, 2000);
+                        } else {
+                            alert('Failed to add to cart: ' + (data.error || ''));
+                            button.innerHTML = '+';
+                            button.disabled = false;
+                        }
+                    } catch (error) {
+                        console.error('Network error:', error);
+                        alert('Network error. Please try again.');
+                        button.innerHTML = '+';
+                        button.disabled = false;
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="../js/animations.js"></script>
+</body>
+</html>

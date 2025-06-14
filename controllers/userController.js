@@ -89,3 +89,14 @@ exports.about = async (req, res) => {
       res.status(500).send('Error loading about page');
     }
 }
+
+exports.getCartCount = async (userId) => {
+    try {
+        if (!userId) return 0;
+        const cart = await Cart.findOne({ user: userId });
+        return cart ? cart.items.reduce((sum, item) => sum + item.quantity, 0) : 0;
+    } catch (err) {
+        console.error("Error getting cart count:", err);
+        return 0;
+    }
+};
