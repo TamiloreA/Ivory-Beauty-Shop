@@ -292,6 +292,14 @@ exports.updateOrderStatus = async (req, res) => {
       if (!updatedOrder) {
         return res.status(404).json({ error: 'Order not found' });
       }
+
+      if (status === 'delivered') {
+        await Promise.all(updatedOrder.items.map(async item => {
+          await Product.findByIdAndUpdate(item.product, {
+            $inc: { salesCount: item.quantity }
+          });
+        }));
+      }
       
       res.json({ 
         success: true, 

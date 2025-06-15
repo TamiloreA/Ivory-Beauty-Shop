@@ -14,7 +14,8 @@ const productSchema = new mongoose.Schema({
     ref: 'Collection',
     required: true
   },
-  quantity: { type: Number, required: true, default: 0 }
+  quantity: { type: Number, required: true, default: 0 },
+  salesCount: { type: Number, default: 0 }
 });
 
 module.exports = mongoose.model('Product', productSchema);

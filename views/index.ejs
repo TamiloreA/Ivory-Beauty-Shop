@@ -123,95 +123,45 @@
         <section class="bestsellers">
             <h2 class="section-title reveal">Bestselling Collections</h2>
             <div class="collection-tabs">
-                <button class="tab-btn active" data-tab="skincare">Skincare</button>
-                <button class="tab-btn" data-tab="makeup">Makeup</button>
-                <button class="tab-btn" data-tab="fragrance">Fragrance</button>
+                <% collectionsWithBestsellers.forEach((collection, index) => { %>
+                <button 
+                    class="tab-btn <%= index === 0 ? 'active' : '' %>" 
+                    data-tab="<%= collection._id %>"
+                >
+                    <%= collection.name %>
+                </button>
+                <% }) %>
             </div>
             <div class="collections-container">
-                <div class="collection-tab active" id="skincare">
+                <% collectionsWithBestsellers.forEach((collection, index) => { %>
+                <div 
+                    class="collection-tab <%= index === 0 ? 'active' : '' %>" 
+                    id="<%= collection._id %>"
+                >
                     <div class="collection-grid">
+                        <% collection.bestsellers.forEach(product => { %>
                         <div class="collection-item reveal">
                             <div class="collection-img">
-                                <div class="hover-reveal"></div>
+                                <img src="<%= product.imageUrl %>" alt="<%= product.name %>">
                             </div>
-                            <h3>Hydration Collection</h3>
-                            <p>Complete routine for dry skin</p>
-                            <button class="btn-outline">View Collection</button>
+                            <h3><%= product.name %></h3>
+                            <p><%= product.description.substring(0, 60) %>...</p>
+                            <span class="price">₦<%= product.price.toFixed(2) %></span>
+                            
+                            <% if (userId) { %>
+                            <form action="/cart/add-to-cart" method="POST">
+                                <input type="hidden" name="productId" value="<%= product._id %>">
+                                <input type="number" name="quantity" value="1" min="1" style="width: 50px;">
+                                <button type="submit" class="btn-outline add-to-cart">Add to Cart</button>
+                            </form>
+                            <% } else { %>
+                            <a href="/login" class="btn-outline">Sign in to add to cart</a>
+                            <% } %>
                         </div>
-                        <div class="collection-item reveal delay-1">
-                            <div class="collection-img">
-                                <div class="hover-reveal"></div>
-                            </div>
-                            <h3>Radiance Essentials</h3>
-                            <p>For dull, tired skin</p>
-                            <button class="btn-outline">View Collection</button>
-                        </div>
-                        <div class="collection-item reveal delay-2">
-                            <div class="collection-img">
-                                <div class="hover-reveal"></div>
-                            </div>
-                            <h3>Calming Ritual</h3>
-                            <p>Soothe sensitive skin</p>
-                            <button class="btn-outline">View Collection</button>
-                        </div>
+                        <% }) %>
                     </div>
                 </div>
-                <div class="collection-tab" id="makeup">
-                    <div class="collection-grid">
-                        <div class="collection-item">
-                            <div class="collection-img">
-                                <div class="hover-reveal"></div>
-                            </div>
-                            <h3>Natural Glow</h3>
-                            <p>Everyday essentials</p>
-                            <button class="btn-outline">View Collection</button>
-                        </div>
-                        <div class="collection-item">
-                            <div class="collection-img">
-                                <div class="hover-reveal"></div>
-                            </div>
-                            <h3>Evening Elegance</h3>
-                            <p>Special occasion makeup</p>
-                            <button class="btn-outline">View Collection</button>
-                        </div>
-                        <div class="collection-item">
-                            <div class="collection-img">
-                                <div class="hover-reveal"></div>
-                            </div>
-                            <h3>Lip Collection</h3>
-                            <p>Signature lip colors</p>
-                            <button class="btn-outline">View Collection</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="collection-tab" id="fragrance">
-                    <div class="collection-grid">
-                        <div class="collection-item">
-                            <div class="collection-img">
-                                <div class="hover-reveal"></div>
-                            </div>
-                            <h3>Floral Dreams</h3>
-                            <p>Delicate floral scents</p>
-                            <button class="btn-outline">View Collection</button>
-                        </div>
-                        <div class="collection-item">
-                            <div class="collection-img">
-                                <div class="hover-reveal"></div>
-                            </div>
-                            <h3>Warm Embrace</h3>
-                            <p>Cozy, comforting fragrances</p>
-                            <button class="btn-outline">View Collection</button>
-                        </div>
-                        <div class="collection-item">
-                            <div class="collection-img">
-                                <div class="hover-reveal"></div>
-                            </div>
-                            <h3>Fresh Citrus</h3>
-                            <p>Energizing scent collection</p>
-                            <button class="btn-outline">View Collection</button>
-                        </div>
-                    </div>
-                </div>
+                <% }) %>
             </div>
         </section>
 

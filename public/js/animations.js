@@ -456,3 +456,24 @@ async function updateCartCounts() {
     }
 }
   
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab functionality
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const collectionTabs = document.querySelectorAll('.collection-tab');
+    
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons and tabs
+            tabBtns.forEach(b => b.classList.remove('active'));
+            collectionTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Add active class to clicked button
+            btn.classList.add('active');
+            
+            // Show corresponding tab
+            const tabId = btn.getAttribute('data-tab');
+            const tabContent = document.getElementById(tabId);
+            if (tabContent) tabContent.classList.add('active');
+        });
+    });
+});

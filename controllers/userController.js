@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Users = require("../models/user");
 const Product = require("../models/product");
 const Cart = require("../models/cart");
+const Collection = require("../models/collection");
 const bcrypt = require("bcryptjs");
 
 exports.landingPage = async (req, res) => {
@@ -11,10 +12,24 @@ exports.landingPage = async (req, res) => {
     const cart = await Cart.findOne({ user: req.session.userId });
     const cartCount = cart ? cart.items.reduce((sum, item) => sum + item.quantity, 0) : 0;
 
+    const collections = await Collection.find().limit(3);
+    const collectionsWithBestsellers = await Promise.all(
+      collections.map(async collection => {
+        const bestsellers = await Product.find({ collectionRef: collection._id })
+          .sort({ salesCount: -1 })
+          .limit(3);
+        return {
+          ...collection.toObject(),
+          bestsellers
+        };
+      })
+    );
+
     res.render("index", {
       products,
       cartCount,
-      userId: req.session.userId
+      userId: req.session.userId,
+      collectionsWithBestsellers
     });
   } catch (err) {
     console.error(err);

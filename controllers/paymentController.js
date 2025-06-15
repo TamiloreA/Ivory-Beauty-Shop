@@ -130,7 +130,7 @@ exports.verifyPayment = async (req, res) => {
       // Update product quantities
       await Promise.all(order.items.map(async item => {
         await Product.findByIdAndUpdate(item.product._id, {
-          $inc: { quantity: -item.quantity }
+          $inc: { quantity: -item.quantity, salesCount: item.quantity }
         });
       }));
   
