@@ -282,8 +282,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="/products" class="active">Products</a></li>
-                <li><a href="/collections">Collections</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="/contact">Contact</a></li>
             </ul>
         </nav>
         <div class="header-icons">
@@ -321,8 +320,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="/products" class="active">Products</a></li>
-                <li><a href="/collections">Collections</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="/contact">Contact</a></li>
             </ul>
             <div class="mobile-nav-footer">
                 <div class="mobile-search">
@@ -428,10 +426,10 @@
                 </div>
             </div>
             <div class="footer-social">
-                <a href="#" class="social-icon">Ig</a>
-                <a href="#" class="social-icon">Fb</a>
-                <a href="#" class="social-icon">Pt</a>
-                <a href="#" class="social-icon">Tw</a>
+                <a href="https://www.instagram.com/ivorybeautyempire?igsh=MW9hM3MybDc1bG50cw=="" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
             </div>
         </div>
         <div class="footer-bottom">
@@ -512,11 +510,27 @@
                     }
                 });
             });
+
+            async function updateCartCounts() {
+                try {
+                    const response = await fetch('/cart/count');
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        document.querySelectorAll('.cart-count').forEach(el => {
+                            el.textContent = data.count;
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error updating cart count:', error);
+                }
+            }
             
             const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
             addToCartButtons.forEach(button => {
                 button.addEventListener('click', async () => {
                     const productId = button.dataset.productId;
+                    const originalHTML = button.innerHTML;
                     
                     // Add loading animation
                     button.innerHTML = '<div class="spinner"></div>';
@@ -537,10 +551,7 @@
                         const data = await response.json();
                         
                         if (data.success) {
-                            // Update ALL cart count elements on the page
-                            document.querySelectorAll('.cart-count').forEach(el => {
-                                el.textContent = data.cartCount;
-                            });
+                            await updateCartCounts();
                             
                             // Show success feedback
                             button.innerHTML = '✓';
@@ -564,6 +575,7 @@
                     }
                 });
             });
+            updateCartCounts();
         });
     </script>
     <script src="../js/animations.js"></script>

@@ -27,7 +27,6 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="/products">Products</a></li>
-                <li><a href="#">Collection</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </nav>
@@ -58,7 +57,6 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="/products">Products</a></li>
-                <li><a href="#">Collection</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
             <div class="mobile-nav-footer">
@@ -181,12 +179,12 @@
                         <div class="cart-actions">
                             <a href="/" class="btn btn-outline">Continue Shopping</a>
                             <form id="order-form" action="/orders/checkout" method="GET">
-                                <input type="hidden" name="items" value='<%= JSON.stringify(cartItems.map(i => ({
-                                  product: i.product.toString(),
-                                  quantity: i.quantity
+                                <input type="hidden" name="items" value='<%= JSON.stringify(cartItems.filter(i => i.product).map(i => ({
+                                    product: i.product.toString(),
+                                    quantity: i.quantity
                                 }))) %>'>
                                 <input type="hidden" name="total" value="<%= total %>">
-                                <button type="submit" class="btn btn-primary">Place Order</button>
+                                <button type="submit" class="btn place-order-btn">Proceed to Checkout</button>
                             </form>
                         </div>
                     </div>
@@ -203,16 +201,16 @@
                 <div class="footer-column">
                     <h4>Shop</h4>
                     <ul>
-                        <li><a href="#">All Products</a></li>
-                        <li><a href="#">Bestsellers</a></li>
-                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="/products">All Products</a></li>
+                        <li><a href="/products">Bestsellers</a></li>
+                        <li><a href="/products">New Arrivals</a></li>
                         <li><a href="#">Gift Sets</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h4>About</h4>
                     <ul>
-                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="/about">Our Story</a></li>
                         <li><a href="#">Ingredients</a></li>
                         <li><a href="#">Sustainability</a></li>
                         <li><a href="#">Blog</a></li>
@@ -229,10 +227,10 @@
                 </div>
             </div>
             <div class="footer-social">
-                <a href="#" class="social-icon">Ig</a>
-                <a href="#" class="social-icon">Fb</a>
-                <a href="#" class="social-icon">Pt</a>
-                <a href="#" class="social-icon">Tw</a>
+                <a href="https://www.instagram.com/ivorybeautyempire?igsh=MW9hM3MybDc1bG50cw=="" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
             </div>
         </div>
         <div class="footer-bottom">

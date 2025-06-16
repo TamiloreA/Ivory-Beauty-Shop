@@ -11,7 +11,8 @@ router.get('/count', requireLogin, async (req, res) => {
         res.json({ count });
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
-}});
+    }
+});
 router.get('/', requireLogin, cartController.viewCart);
 
 router.put('/update-quantity', requireLogin, cartController.updateQuantity);

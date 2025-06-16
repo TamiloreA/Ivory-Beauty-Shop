@@ -503,7 +503,7 @@
     width: 60%;
     height: 70%;
     background-color: var(--light-gray);
-    background-image: url('');
+    background-image: url('https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1000');
     background-size: cover;
     background-position: center;
     z-index: 2;
